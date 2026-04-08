@@ -51,10 +51,10 @@ export async function POST(request: Request) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const streamParams: any = {
-    model: "claude-opus-4-6",
+    model: "claude-sonnet-4-6",
     max_tokens: 4096,
-    thinking: { type: "adaptive" },
-    system: SYSTEM_PROMPT,
+    // Cache the large system prompt — counts far fewer tokens against rate limits
+    system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
     tools: [
       { type: "web_search_20260209", name: "web_search" },
       { type: "web_fetch_20260209", name: "web_fetch" },
